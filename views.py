@@ -1,31 +1,39 @@
 from rest_framework import viewsets, filters, serializers
-from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer,JSONRenderer,XMLRenderer,YAMLRenderer
+from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
+from counter.models import Platform, PlatformPublisher, Publisher, Publication
+#from django_filters.rest_framework import DjangoFilterBackend
 
-from counter.models import Platform,PlatformPublisher,Publisher 
+# ************************************* Base Classes  ***************************************************************
 
 
-#************************************* Base Classes  ***************************************************************
 class culibrariesTableViewSet(viewsets.ModelViewSet):
-    renderer_classes = (BrowsableAPIRenderer, JSONRenderer,JSONPRenderer,XMLRenderer,YAMLRenderer)
-#    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter)
+    renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
+                        JSONPRenderer, XMLRenderer, YAMLRenderer)
+    # filter_backends = (filters.DjangoFilterBackend,
+    #                   filters.SearchFilter, filters.OrderingFilter)
 
-#DB View ViewSet Class
+# DB View ViewSet Class
+
+
 class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
-    renderer_classes = (BrowsableAPIRenderer, JSONRenderer,JSONPRenderer,XMLRenderer,YAMLRenderer) #,CSVRenderer)
+    renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
+                        JSONPRenderer, XMLRenderer, YAMLRenderer)  # ,CSVRenderer)
 #    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter)
 
-#***************************************** Counter Tables **********************************************************
+# ***************************************** Counter Tables **********************************************************
+
 
 class PlatformViewSet(culibrariesTableViewSet):
     """
 
     Counter  Platform ViewSet with hyperlinked tables.
-    
+
     """
     model = Platform
     queryset = Platform.objects.all()
     #serializer_class = AcctaxSerializer
     #filter_class = AcctaxFilter
+
 
 class PlatformPublisherViewSet(culibrariesTableViewSet):
     """
@@ -38,6 +46,7 @@ class PlatformPublisherViewSet(culibrariesTableViewSet):
     #serializer_class = AcctaxSerializer
     #filter_class = AcctaxFilter
 
+
 class PublisherViewSet(culibrariesTableViewSet):
     """
 
@@ -47,8 +56,20 @@ class PublisherViewSet(culibrariesTableViewSet):
     model = Publisher
     queryset = Publisher.objects.all()
     #serializer_class = AcctaxSerializer
+
+
+class PublicationViewSet(culibrariesTableViewSet):
+    """
+
+    Counter Publication ViewSet with hyperlinked tables.
+
+    """
+    model = Publication
+    queryset = Publisher.objects.all()
+    #serializer_class = AcctaxSerializer
     #filter_class = AcctaxFilter
-#***************************************** Counter DB Views ********************************************************
+# ***************************************** Counter DB Views ********************************************************
+
 
 """
 
@@ -62,5 +83,3 @@ class VwSearchViewSet(culibrariesViewViewSet):
     ordering_fields = ()
 
 """
-
-
