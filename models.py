@@ -10,6 +10,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from rest_framework import serializers
 
 
 class Platform(models.Model):

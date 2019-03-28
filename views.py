@@ -65,8 +65,7 @@ class PublicationViewSet(culibrariesTableViewSet):
 
     """
     model = Publication
-    queryset = Publisher.objects.all()
-    #serializer_class = AcctaxSerializer
+    queryset = Publication.objects.all()
     #filter_class = AcctaxFilter
 # ***************************************** Counter DB Views ********************************************************
 
