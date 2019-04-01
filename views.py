@@ -1,6 +1,11 @@
-from rest_framework import viewsets, filters, serializers
+from rest_framework import viewsets, filters, serializers, permissions
 from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
 from counter.models import Platform, PlatformPublisher, Publisher, Publication
+from filters import *
+from serializers import *
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 #from django_filters.rest_framework import DjangoFilterBackend
 
 # ************************************* Base Classes  ***************************************************************
@@ -65,6 +70,9 @@ class PublicationViewSet(culibrariesTableViewSet):
 
     """
     model = Publication
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    serializer_class = PublicationSerializer
+    filter_class = PublicationsFilter
     queryset = Publication.objects.all()
     #filter_class = AcctaxFilter
 # ***************************************** Counter DB Views ********************************************************
