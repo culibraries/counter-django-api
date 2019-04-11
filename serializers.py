@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import json
-from models import *
+from .models import *
 import os
 import requests
 
@@ -24,10 +24,10 @@ class JSONSerializerField(serializers.Field):
 
 
 class PublicationSerializer(serializers.HyperlinkedModelSerializer):
-    field_data = WritableJSONField()
+    # field_data = WritableJSONField()
     id = serializers.CharField(source='id')
 
     class Meta:
         model = Publication
-        fields = ('publisher_id', 'title', 'print_issn', 'proprietary_id'
-                  'online_issn', 'journal_doi', 'is_active')
+        fields = ('Title', 'Publisher', 'Platform',
+                  'PrintISSN', 'OnlineISSN', 'Period', 'Total')

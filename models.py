@@ -22,58 +22,26 @@ class Platform(models.Model):
         db_table = 'platform'
 
 
-class PlatformPublisher(models.Model):
-    id = models.IntegerField(primary_key=True)
-    platform_id = models.IntegerField()
-    publisher_id = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'platform_publisher'
-
-
 class Publication(models.Model):
-    id = models.IntegerField(primary_key=True)
-    publisher_id = models.IntegerField()
-    title = models.CharField(max_length=100)
-    print_issn = models.CharField(max_length=10, blank=True, null=True)
-    online_issn = models.CharField(max_length=10, blank=True, null=True)
-    journal_doi = models.CharField(max_length=100, blank=True, null=True)
-    proprietary_id = models.CharField(max_length=50, blank=True, null=True)
-    is_active = models.IntegerField()
+    id = models.IntegerField()
+    Title = models.CharField(max_length=100)
+    Publisher = models.CharField(max_length=100)
+    Platform = models.CharField(max_length=100)
+    PrintISSN = models.CharField(max_length=100)
+    OnlineISSN = models.CharField(max_length=100)
+    Period = models.DateField()
+    Total = models.IntegerField()
 
     class Meta:
-        managed = False
-        db_table = 'publication'
+        # managed = False
+        db_table = 'counter_result_detail_with_id'
 
 
 class Publisher(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    platform = models.CharField(max_length=100)
+    platform_id = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'publisher'
-
-
-class PublisherTmp(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    platform = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'publisher_tmp'
-
-
-class UsageStats(models.Model):
-    id = models.IntegerField(primary_key=True)
-    publication_id = models.IntegerField()
-    year = models.SmallIntegerField()
-    month = models.IntegerField()
-    count = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'usage_stats'

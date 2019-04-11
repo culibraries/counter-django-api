@@ -1,12 +1,12 @@
-from rest_framework import viewsets, filters, serializers, permissions
+from rest_framework import viewsets, filters
 from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
-from counter.models import Platform, PlatformPublisher, Publisher, Publication
-from filters import *
-from serializers import *
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-#from django_filters.rest_framework import DjangoFilterBackend
+from counter.models import Platform, Publisher, Publication
+from .filter import PublicationsFilter
+from serializers import PublicationSerializer
+from rest_framework import permissions
+
+
+# from django_filters.rest_framework import DjangoFilterBackend
 
 # ************************************* Base Classes  ***************************************************************
 
@@ -15,7 +15,7 @@ class culibrariesTableViewSet(viewsets.ModelViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
                         JSONPRenderer, XMLRenderer, YAMLRenderer)
     # filter_backends = (filters.DjangoFilterBackend,
-    #                   filters.SearchFilter, filters.OrderingFilter)
+    #                  filters.SearchFilter, filters.OrderingFilter)
 
 # DB View ViewSet Class
 
@@ -23,7 +23,8 @@ class culibrariesTableViewSet(viewsets.ModelViewSet):
 class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
                         JSONPRenderer, XMLRenderer, YAMLRenderer)  # ,CSVRenderer)
-#    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter)
+    filter_backends = (filters.DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter)
 
 # ***************************************** Counter Tables **********************************************************
 
@@ -36,20 +37,8 @@ class PlatformViewSet(culibrariesTableViewSet):
     """
     model = Platform
     queryset = Platform.objects.all()
-    #serializer_class = AcctaxSerializer
-    #filter_class = AcctaxFilter
-
-
-class PlatformPublisherViewSet(culibrariesTableViewSet):
-    """
-
-    Counter PlatformPublisher ViewSet with hyperlinked tables.
-
-    """
-    model = PlatformPublisher
-    queryset = PlatformPublisher.objects.all()
-    #serializer_class = AcctaxSerializer
-    #filter_class = AcctaxFilter
+    # serializer_class = AcctaxSerializer
+    # filter_class = AcctaxFilter
 
 
 class PublisherViewSet(culibrariesTableViewSet):
@@ -60,10 +49,10 @@ class PublisherViewSet(culibrariesTableViewSet):
     """
     model = Publisher
     queryset = Publisher.objects.all()
-    #serializer_class = AcctaxSerializer
+    # serializer_class = AcctaxSerializer
 
 
-class PublicationViewSet(culibrariesTableViewSet):
+class PublicationViewSet(culibrariesViewViewSet):
     """
 
     Counter Publication ViewSet with hyperlinked tables.
@@ -71,10 +60,28 @@ class PublicationViewSet(culibrariesTableViewSet):
     """
     model = Publication
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #filter_class = PublicationsFilter
+    # filter_fields = ('Title')
+    # search_fields = ('Title')
+    # ordering_fields = ('__all__')
+    # queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
-    filter_class = PublicationsFilter
-    queryset = Publication.objects.all()
-    #filter_class = AcctaxFilter
+
+    def get_queryset(self):
+        queryset = Publication.objects.all()
+        if 'publisher' in self.request.GET:
+            publisher = self.request.GET['publisher']
+            queryset = queryset.filter(
+                Publisher__in=tuple(publisher.split('|')))
+        if 'title' in self.request.GET:
+            title = self.request.GET['title']
+            queryset = queryset.filter(
+                Title__icontains=title
+            )
+
+        return queryset
+
+    # filter_class = AcctaxFilter
 # ***************************************** Counter DB Views ********************************************************
 
 

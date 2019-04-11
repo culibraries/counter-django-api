@@ -3,11 +3,10 @@ from django.conf.urls import patterns, include, url
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from counter.views import PlatformViewSet, PlatformPublisherViewSet, PublisherViewSet, PublicationViewSet
+from counter.views import PlatformViewSet, PublisherViewSet, PublicationViewSet
 
 router = routers.SimpleRouter()
 router.register('platforms', PlatformViewSet)
-router.register('platformpublisher', PlatformPublisherViewSet)
 router.register('publishers', PublisherViewSet)
 router.register('publications', PublicationViewSet)
 # View
