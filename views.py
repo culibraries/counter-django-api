@@ -1,7 +1,7 @@
 from rest_framework import viewsets, filters
 from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
 from counter.models import Platform, Publisher, Publication
-from .filter import PublicationsFilter
+# from .filter import PublicationsFilter
 from serializers import PublicationSerializer
 from rest_framework import permissions
 
@@ -60,11 +60,6 @@ class PublicationViewSet(culibrariesViewViewSet):
     """
     model = Publication
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    #filter_class = PublicationsFilter
-    # filter_fields = ('Title')
-    # search_fields = ('Title')
-    # ordering_fields = ('__all__')
-    # queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
 
     def get_queryset(self):
@@ -76,8 +71,18 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             queryset = queryset.filter(
-                Title__icontains=title
+                Title__contains=title
             )
+        if 'platform' in self.request.GET:
+            platform = self.request.GET['platform']
+            queryset = queryset.filter(
+                Platform__in=tuple(platform.split('|')))
+        if 'range' in self.request.GET:
+            rangeDate = tuple(self.request.GET['range'].split('|'))
+            fromDate = rangeDate[0]
+            toDate = rangeDate[1]
+            queryset = queryset.filter(
+                Period__range=(fromDate, toDate))
 
         return queryset
 
