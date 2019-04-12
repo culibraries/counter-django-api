@@ -1,6 +1,6 @@
 from rest_framework import viewsets, filters
 from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
-from counter.models import Platform, Publisher, Publication
+from counter.models import Platform, Publisher, Publication, Title
 # from .filter import PublicationsFilter
 from serializers import PublicationSerializer
 from rest_framework import permissions
@@ -49,6 +49,17 @@ class PublisherViewSet(culibrariesTableViewSet):
     """
     model = Publisher
     queryset = Publisher.objects.all()
+    # serializer_class = AcctaxSerializer
+
+
+class TitleViewSet(culibrariesTableViewSet):
+    """
+
+    Counter Title ViewSet with hyperlinked tables.
+
+    """
+    model = Title
+    queryset = Title.objects.all()
     # serializer_class = AcctaxSerializer
 
 

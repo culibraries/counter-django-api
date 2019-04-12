@@ -33,8 +33,17 @@ class Publication(models.Model):
     Total = models.IntegerField()
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'counter_result_detail_with_id'
+
+
+class Title(models.Model):
+    id = models.IntegerField()
+    title = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'publication'
 
 
 class Publisher(models.Model):
