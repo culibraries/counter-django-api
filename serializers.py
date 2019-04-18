@@ -25,9 +25,9 @@ class JSONSerializerField(serializers.Field):
 
 class PublicationSerializer(serializers.HyperlinkedModelSerializer):
     # field_data = WritableJSONField()
-    id = serializers.CharField(source='id')
+    ID = serializers.CharField(source='id')
 
     class Meta:
         model = Publication
         fields = ('Title', 'Publisher', 'Platform',
-                  'PrintISSN', 'OnlineISSN', 'Period', 'Total')
+                  'PrintISSN', 'OnlineISSN', 'Period', 'JournalDOI', 'ProprietaryID', 'Total')

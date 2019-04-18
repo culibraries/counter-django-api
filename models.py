@@ -23,18 +23,20 @@ class Platform(models.Model):
 
 
 class Publication(models.Model):
-    id = models.IntegerField()
+    ID = models.IntegerField()
     Title = models.CharField(max_length=100)
     Publisher = models.CharField(max_length=100)
     Platform = models.CharField(max_length=100)
     PrintISSN = models.CharField(max_length=100)
     OnlineISSN = models.CharField(max_length=100)
+    JournalDOI = models.CharField(max_length=100)
+    ProprietaryID = models.CharField(max_length=100)
     Period = models.DateField()
     Total = models.IntegerField()
 
     class Meta:
         managed = False
-        db_table = 'counter_result_detail_with_id'
+        db_table = 'counter_result_detail'
 
 
 class Title(models.Model):

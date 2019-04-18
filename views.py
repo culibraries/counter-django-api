@@ -82,8 +82,7 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             queryset = queryset.filter(
-                Title__contains=title
-            )
+                Title__in=tuple(title.split('|')))
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
             queryset = queryset.filter(
