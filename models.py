@@ -24,15 +24,15 @@ class Platform(models.Model):
 
 class Publication(models.Model):
     ID = models.IntegerField()
-    Title = models.CharField(max_length=100)
-    Publisher = models.CharField(max_length=100)
-    Platform = models.CharField(max_length=100)
-    PrintISSN = models.CharField(max_length=100)
-    OnlineISSN = models.CharField(max_length=100)
-    JournalDOI = models.CharField(max_length=100)
-    ProprietaryID = models.CharField(max_length=100)
-    Period = models.DateField()
-    Total = models.IntegerField()
+    title = models.CharField(max_length=100)
+    publisher = models.CharField(max_length=100)
+    platform = models.CharField(max_length=100)
+    print_issn = models.CharField(max_length=100)
+    online_issn = models.CharField(max_length=100)
+    journal_doi = models.CharField(max_length=100)
+    proprietary_id = models.CharField(max_length=100)
+    period = models.DateField()
+    requests = models.IntegerField()
 
     class Meta:
         managed = False

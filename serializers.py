@@ -29,5 +29,5 @@ class PublicationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Publication
-        fields = ('Title', 'Publisher', 'Platform',
-                  'PrintISSN', 'OnlineISSN', 'Period', 'JournalDOI', 'ProprietaryID', 'Total')
+        fields = ('title', 'publisher', 'platform',
+                  'print_issn', 'online_issn', 'period', 'journal_doi', 'proprietary_id', 'requests')

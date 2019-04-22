@@ -16,12 +16,12 @@ class MultipleFilter(MultipleChoiceFilter):
 
 
 class PublicationsFilter(django_filters.FilterSet):
-    Publisher = MultipleFilter(lookup_type='in')
-    Platform = MultipleFilter(lookup_type='in')
+    publisher = MultipleFilter(lookup_type='in')
+    platform = MultipleFilter(lookup_type='in')
     # start_date = DateFilter(name='Period', lookup_type=('gt'),)
     # end_date = DateFilter(name='Period', lookup_type=('lt'))
-    Title = django_filters.CharFilter(lookup_type='icontains')
+    title = django_filters.CharFilter(lookup_type='icontains')
 
     class Meta:
         model = Publication
-        fields = ['Title', 'Publisher', 'Platform']
+        fields = ['title', 'publisher', 'platform']

@@ -78,21 +78,21 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'publisher' in self.request.GET:
             publisher = self.request.GET['publisher']
             queryset = queryset.filter(
-                Publisher__in=tuple(publisher.split('|')))
+                publisher__in=tuple(publisher.split('|')))
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             queryset = queryset.filter(
-                Title__in=tuple(title.split('|')))
+                title__in=tuple(title.split('|')))
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
             queryset = queryset.filter(
-                Platform__in=tuple(platform.split('|')))
+                platform__in=tuple(platform.split('|')))
         if 'range' in self.request.GET:
             rangeDate = tuple(self.request.GET['range'].split('|'))
             fromDate = rangeDate[0]
             toDate = rangeDate[1]
             queryset = queryset.filter(
-                Period__range=(fromDate, toDate))
+                period__range=(fromDate, toDate))
 
         return queryset
 
