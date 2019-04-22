@@ -51,7 +51,6 @@ class Title(models.Model):
 class Publisher(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
-    platform_id = models.IntegerField()
 
     class Meta:
         managed = False

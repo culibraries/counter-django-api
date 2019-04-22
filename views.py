@@ -1,8 +1,12 @@
 from rest_framework import viewsets, filters
-from rest_framework.renderers import BrowsableAPIRenderer, JSONPRenderer, JSONRenderer, XMLRenderer, YAMLRenderer
+# from rest_framework.views import APIView
+from rest_framework.renderers import BrowsableAPIRenderer
+from rest_framework_xml.renderers import XMLRenderer
+from rest_framework_yaml.renderers import YAMLRenderer
+from rest_framework_jsonp.renderers import JSONPRenderer
+from rest_framework.renderers import JSONRenderer
 from counter.models import Platform, Publisher, Publication, Title
-# from .filter import PublicationsFilter
-from serializers import PublicationSerializer
+from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer
 from rest_framework import permissions
 
 
@@ -23,8 +27,8 @@ class culibrariesTableViewSet(viewsets.ModelViewSet):
 class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
                         JSONPRenderer, XMLRenderer, YAMLRenderer)  # ,CSVRenderer)
-    filter_backends = (filters.DjangoFilterBackend,
-                       filters.SearchFilter, filters.OrderingFilter)
+    # filter_backends = (filters.DjangoFilterBackend,
+    #                    filters.SearchFilter, filters.OrderingFilter)
 
 # ***************************************** Counter Tables **********************************************************
 
@@ -37,7 +41,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     """
     model = Platform
     queryset = Platform.objects.all()
-    # serializer_class = AcctaxSerializer
+    serializer_class = PlatformSerializer
     # filter_class = AcctaxFilter
 
 
@@ -49,7 +53,7 @@ class PublisherViewSet(culibrariesTableViewSet):
     """
     model = Publisher
     queryset = Publisher.objects.all()
-    # serializer_class = AcctaxSerializer
+    serializer_class = PublisherSerializer
 
 
 class TitleViewSet(culibrariesTableViewSet):
@@ -60,7 +64,7 @@ class TitleViewSet(culibrariesTableViewSet):
     """
     model = Title
     queryset = Title.objects.all()
-    # serializer_class = AcctaxSerializer
+    serializer_class = TitleSerializer
 
 
 class PublicationViewSet(culibrariesViewViewSet):
