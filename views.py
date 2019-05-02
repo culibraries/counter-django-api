@@ -5,8 +5,8 @@ from rest_framework_xml.renderers import XMLRenderer
 from rest_framework_yaml.renderers import YAMLRenderer
 from rest_framework_jsonp.renderers import JSONPRenderer
 from rest_framework.renderers import JSONRenderer
-from counter.models import Platform, Publisher, Publication, Title
-from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer
+from counter.models import Platform, Publisher, Publication, Title, Filter
+from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
 
 
@@ -67,6 +67,17 @@ class TitleViewSet(culibrariesTableViewSet):
     serializer_class = TitleSerializer
 
 
+class FilterViewSet(culibrariesTableViewSet):
+    """
+
+    Counter Title ViewSet with hyperlinked tables.
+
+    """
+    model = Filter
+    queryset = Filter.objects.all()
+    serializer_class = FilterSerializer
+
+
 class PublicationViewSet(culibrariesViewViewSet):
     """
 
@@ -74,7 +85,7 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     """
     model = Publication
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PublicationSerializer
 
     def get_queryset(self):

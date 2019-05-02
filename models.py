@@ -30,6 +30,19 @@ class Publication(models.Model):
         db_table = 'counter_result_detail'
 
 
+class Filter(models.Model):
+    id = models.IntegerField()
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100)
+    owner = models.CharField(max_length=100)
+    create_date = models.DateTimeField()
+    update_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'filter'
+
+
 class Title(models.Model):
     id = models.IntegerField()
     title = models.CharField(max_length=100)

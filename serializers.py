@@ -33,3 +33,12 @@ class TitleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Title
         fields = ('id', 'title')
+
+
+class FilterSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.CharField()
+
+    class Meta:
+        model = Filter
+        fields = ('id', 'name', 'description', 'owner',
+                  'create_date', 'update_date')
