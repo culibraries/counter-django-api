@@ -3,7 +3,7 @@ from .models import *
 
 
 class PublicationSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.CharField()
+    id = serializers.IntegerField()
 
     class Meta:
         model = Publication
@@ -12,7 +12,7 @@ class PublicationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlatformSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.CharField()
+    id = serializers.IntegerField()
 
     class Meta:
         model = Platform
@@ -20,7 +20,7 @@ class PlatformSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PublisherSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.CharField()
+    id = serializers.IntegerField()
 
     class Meta:
         model = Publisher
@@ -28,7 +28,7 @@ class PublisherSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TitleSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.CharField()
+    id = serializers.IntegerField()
 
     class Meta:
         model = Title
@@ -36,9 +36,11 @@ class TitleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class FilterSerializer(serializers.HyperlinkedModelSerializer):
-    id = serializers.CharField()
+    id = serializers.IntegerField(required=False)
+    description = serializers.CharField(allow_blank=True)
+    params = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Filter
-        fields = ('id', 'name', 'description', 'owner',
-                  'create_date', 'update_date')
+        fields = ('id', 'name', 'description', 'params', 'owner',
+                  'created_at', 'updated_at')

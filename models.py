@@ -33,10 +33,11 @@ class Publication(models.Model):
 class Filter(models.Model):
     id = models.IntegerField()
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
-    owner = models.CharField(max_length=100)
-    create_date = models.DateTimeField()
-    update_date = models.DateTimeField()
+    description = models.CharField(max_length=250)
+    params = models.CharField(max_length=500)
+    owner = models.CharField(max_length=20)
+    created_at = models.DateField()
+    updated_at = models.DateField()
 
     class Meta:
         managed = False
