@@ -1,10 +1,11 @@
 from rest_framework import viewsets, filters
-# from rest_framework.views import APIView
+from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework_xml.renderers import XMLRenderer
 from rest_framework_yaml.renderers import YAMLRenderer
 from rest_framework_jsonp.renderers import JSONPRenderer
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from counter.models import Platform, Publisher, Publication, Title, Filter
 from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
@@ -78,6 +79,24 @@ class FilterViewSet(culibrariesTableViewSet):
     serializer_class = FilterSerializer
 
 
+class StatsViewSet(APIView):
+    """
+
+    """
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, format=None):
+        platform_count = Platform.objects.count()
+        publisher_count = Publisher.objects.count()
+        title_count = Title.objects.count()
+        content = {
+            'platform_count': platform_count,
+            'publisher_count': publisher_count,
+            'title_count': title_count
+        }
+        return Response(content)
+
+
 class PublicationViewSet(culibrariesViewViewSet):
     """
 
@@ -113,17 +132,3 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     # filter_class = AcctaxFilter
 # ***************************************** Counter DB Views ********************************************************
-
-
-"""
-
-class VwSearchViewSet(culibrariesViewViewSet):
-    ""
-    This is the Search ViewSet with hyperlinked tables.
-    ""
-    model = VwSearch
-    queryset = VwSearch.objects.all()
-    search_fields = ()
-    ordering_fields = ()
-
-"""
