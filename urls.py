@@ -1,15 +1,15 @@
 from django.urls import path
+from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 from counter.views import PlatformViewSet, PublisherViewSet, PublicationViewSet, TitleViewSet, FilterViewSet, StatsViewSet
 
-urlpatterns = [
-    path('platforms/',
-         PlatformViewSet.as_view({'get': 'list'}), name='platform-view'),
-    path('publishers/',
-         PublisherViewSet.as_view({'get': 'list'}), name='publisher-view'),
-    path('publications/',
-         PublicationViewSet.as_view({'get': 'list'}), name='publication-view'),
-    path('titles/', TitleViewSet.as_view({'get': 'list'}), name='title-view'),
-    path('filters/',
-         FilterViewSet.as_view({'get': 'list'}), name='filter-view'),
+router = routers.SimpleRouter()
+router.register('platforms', PlatformViewSet, basename='platform')
+router.register('publishers', PublisherViewSet, basename='publisher')
+router.register('publications', PublicationViewSet, basename='publication')
+router.register('titles', TitleViewSet, basename='title')
+router.register('filters', FilterViewSet, basename='filter')
+urlpatterns = router.urls
+urlpatterns.append(
     path('static/', StatsViewSet.as_view(), name='static-view')
-]
+)

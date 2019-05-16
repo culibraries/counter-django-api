@@ -71,7 +71,7 @@ class TitleViewSet(culibrariesTableViewSet):
 class FilterViewSet(culibrariesTableViewSet):
     """
 
-    Counter Title ViewSet with hyperlinked tables.
+    Counter Filter ViewSet with hyperlinked tables.
 
     """
     model = Filter
