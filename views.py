@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from counter.models import Platform, Publisher, Publication, Title, Filter
 from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
 
 
 # from django_filters.rest_framework import DjangoFilterBackend
@@ -43,7 +44,12 @@ class PlatformViewSet(culibrariesTableViewSet):
     model = Platform
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
-    # filter_class = AcctaxFilter
+
+
+class BasicPagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 100000
 
 
 class PublisherViewSet(culibrariesTableViewSet):
@@ -106,6 +112,7 @@ class PublicationViewSet(culibrariesViewViewSet):
     model = Publication
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PublicationSerializer
+    pagination_class = BasicPagination
 
     def get_queryset(self):
         queryset = Publication.objects.all()
