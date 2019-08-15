@@ -14,7 +14,7 @@ class Platform(models.Model):
 
 
 class Publication(models.Model):
-    ID = models.IntegerField(primary_key=True)
+    ID = models.IntegerField()
     title = models.CharField(max_length=100)
     publisher = models.CharField(max_length=100)
     platform = models.CharField(max_length=100)
@@ -31,7 +31,7 @@ class Publication(models.Model):
 
 
 class Filter(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField()
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     params = models.CharField(max_length=500)
