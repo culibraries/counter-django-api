@@ -47,9 +47,11 @@ class PlatformViewSet(culibrariesTableViewSet):
     serializer_class = PlatformSerializer
 
     def get_queryset(self):
-        if 'platform' in self.request.GET:
-            platform = self.request.GET['platform']
-            return Platform.objects.filter(name=platform)
+        queryset = Platform.objects.all()
+        platform = self.request.query_params.get('platform', None)
+        if platform is not None:
+            queryset = queryset.filter(name=platform)
+        return queryset
 
 
 class BasicPagination(PageNumberPagination):
