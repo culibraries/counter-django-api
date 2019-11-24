@@ -10,7 +10,8 @@ from counter.models import Platform, Publisher, Publication, Title, Filter
 from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
-
+# TODO check permission
+# TODO add pagination
 
 # from django_filters.rest_framework import DjangoFilterBackend
 
@@ -42,8 +43,13 @@ class PlatformViewSet(culibrariesTableViewSet):
 
     """
     model = Platform
-    queryset = Platform.objects.all()
+    # queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
+
+    def get_queryset(self):
+        if 'platform' in self.request.GET:
+            platform = self.request.GET['platform']
+            return Platform.objects.filter(name=platform)
 
 
 class BasicPagination(PageNumberPagination):
