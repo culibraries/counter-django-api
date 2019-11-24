@@ -1,6 +1,4 @@
-from rest_framework import viewsets
-import rest_framework_filters as filters
-
+from rest_framework import viewsets, filter
 from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework_xml.renderers import XMLRenderer
@@ -38,12 +36,12 @@ class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
 # ***************************************** Counter Tables **********************************************************
 
 
-class PlatformFilter(filters.FilterSet):
-    name = filters.ModelChoiceFilter(queryset=Platform.objects.all())
+# class PlatformFilter(filters.FilterSet):
+#     name = filters.ModelChoiceFilter(queryset=Platform.objects.all())
 
-    class Meta:
-        model = Platform
-        fields = ['name']
+#     class Meta:
+#         model = Platform
+#         fields = ['name']
 
 
 class PlatformViewSet(culibrariesTableViewSet):
@@ -54,17 +52,25 @@ class PlatformViewSet(culibrariesTableViewSet):
     """
     model = Platform
     serializer_class = PlatformSerializer
-    filter_class = PlatformFilter
-    queryset = Platform.objects.all()
 
-    # def get_queryset(self):
-    #     queryset = Platform.objects.all()
-    #     platform = self.request.query_params.get('platform', None)
-    #     filterType = self.request.query_params.get('type', 'is')
-    #     if platform is not None:
-
-    #         queryset = queryset.filter(name__like=platform)
-    #     return queryset
+    def get_queryset(self):
+        queryset = Platform.objects.all()
+        platform = self.request.query_params.get('platform', None)
+        filterType = self.request.query_params.get('type', 'is')
+        if platform is not None:
+            if filterType is 'is':
+                queryset = queryset.filter(name=platform)
+            if filterType is 'is_not':
+                queryset = queryset.filter().exclude(name=platform)
+            if filterType is 'contains':
+                queryset = queryset.filter(name__icontains=platform)
+            if filterType is 'does_not_contains':
+                queryset = queryset.filter().exclude(name__icontains=platform)
+            if filterType is 'starts_with':
+                queryset = queryset.filter(name__startswith=platform)
+            if filterType is 'ends_with':
+                queryset = queryset.filter(name_endswith=platform)
+        return queryset
 
 
 class BasicPagination(PageNumberPagination):
