@@ -1,4 +1,6 @@
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
+import rest_framework_filters as filters
+
 from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework_xml.renderers import XMLRenderer
@@ -43,15 +45,17 @@ class PlatformViewSet(culibrariesTableViewSet):
 
     """
     model = Platform
-    # queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
+    platform = filters.ModelChoiceFilter(queryset=Platform.objects.all())
 
-    def get_queryset(self):
-        queryset = Platform.objects.all()
-        platform = self.request.query_params.get('platform', None)
-        if platform is not None:
-            queryset = queryset.filter(name=platform)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Platform.objects.all()
+    #     platform = self.request.query_params.get('platform', None)
+    #     filterType = self.request.query_params.get('type', 'is')
+    #     if platform is not None:
+
+    #         queryset = queryset.filter(name__like=platform)
+    #     return queryset
 
 
 class BasicPagination(PageNumberPagination):
