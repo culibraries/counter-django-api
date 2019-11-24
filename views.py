@@ -38,6 +38,14 @@ class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
 # ***************************************** Counter Tables **********************************************************
 
 
+class PlatformFilter(filters.FilterSet):
+    name = filters.ModelChoiceFilter(queryset=Platform.objects.all())
+
+    class Meta:
+        model = Platform
+        fields = ['name']
+
+
 class PlatformViewSet(culibrariesTableViewSet):
     """
 
@@ -46,7 +54,8 @@ class PlatformViewSet(culibrariesTableViewSet):
     """
     model = Platform
     serializer_class = PlatformSerializer
-    platform = filters.ModelChoiceFilter(queryset=Platform.objects.all())
+    filter_class = PlatformFilter
+    queryset = Platform.objects.all()
 
     # def get_queryset(self):
     #     queryset = Platform.objects.all()
