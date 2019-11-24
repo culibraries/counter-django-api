@@ -55,21 +55,21 @@ class PlatformViewSet(culibrariesTableViewSet):
 
     def get_queryset(self):
         queryset = Platform.objects.all()
-        platform = self.request.query_params.get('platform', None)
+        key = self.request.query_params.get('key', None)
         filterType = self.request.query_params.get('type', 'is')
-        if platform is not None:
-            if filterType is 'is':
-                queryset = queryset.filter(name=platform)
-            if filterType is 'is_not':
-                queryset = queryset.filter().exclude(name=platform)
-            if filterType is 'contains':
-                queryset = queryset.filter(name__icontains=platform)
-            if filterType is 'does_not_contains':
-                queryset = queryset.filter().exclude(name__icontains=platform)
-            if filterType is 'starts_with':
-                queryset = queryset.filter(name__startswith=platform)
-            if filterType is 'ends_with':
-                queryset = queryset.filter(name_endswith=platform)
+        if key is not None:
+            if filterType == 'is':
+                queryset = queryset.filter(name=key)
+            if filterType == 'is_not':
+                queryset = queryset.filter().exclude(name=key)
+            if filterType == 'contains':
+                queryset = queryset.filter(name__icontains=key)
+            if filterType == 'does_not_contains':
+                queryset = queryset.filter().exclude(name__icontains=key)
+            if filterType == 'starts_with':
+                queryset = queryset.filter(name__startswith=key)
+            if filterType == 'ends_with':
+                queryset = queryset.filter(name_endswith=key)
         return queryset
 
 
