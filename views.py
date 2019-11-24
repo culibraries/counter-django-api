@@ -1,4 +1,4 @@
-from rest_framework import viewsets, filter
+from rest_framework import viewsets, filters
 from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework_xml.renderers import XMLRenderer
