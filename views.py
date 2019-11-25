@@ -47,9 +47,9 @@ class PlatformViewSet(culibrariesTableViewSet):
         filterType = self.request.query_params.get('type', 'is')
         if key is not None:
             if filterType == 'is':
-                queryset = queryset.filter(name=key)
+                queryset = queryset.filter(name__icontains=key)
             if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name=key)
+                queryset = queryset.filter().exclude(name__icontains=key)
         return queryset
 
 
@@ -74,9 +74,9 @@ class PublisherViewSet(culibrariesTableViewSet):
         filterType = self.request.query_params.get('type', 'is')
         if key is not None:
             if filterType == 'is':
-                queryset = queryset.filter(name=key)
+                queryset = queryset.filter(name__icontains=key)
             if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name=key)
+                queryset = queryset.filter().exclude(name__icontains=key)
         return queryset
 
 
@@ -95,9 +95,9 @@ class TitleViewSet(culibrariesTableViewSet):
         filterType = self.request.query_params.get('type', 'is')
         if key is not None:
             if filterType == 'is':
-                queryset = queryset.filter(name=key)
+                queryset = queryset.filter(name__icontains=key)
             if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name=key)
+                queryset = queryset.filter().exclude(name__icontains=key)
         return queryset
 
 
