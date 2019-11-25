@@ -80,7 +80,7 @@ class TitleViewSet(culibrariesTableViewSet):
     serializer_class = TitleSerializer
 
     def get_queryset(self):
-        queryset = Title.objects.all().distinct('name')
+        queryset = Title.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(title__icontains=key)
         return queryset
@@ -144,9 +144,9 @@ class PublicationViewSet(culibrariesViewViewSet):
                         queryset = queryset.filter().exclude(publisher__icontains=valuef)
                     if typef == 'starts_with':
                         queryset = queryset.filter(
-                            publisher__startswith=valuef)
+                            publisher__istartswith=valuef)
                     if typef == 'ends_with':
-                        queryset = queryset.filter(publisher__endswith=valuef)
+                        queryset = queryset.filter(publisher__iendswith=valuef)
 
         if 'title' in self.request.GET:
             title = self.request.GET['title']
@@ -164,9 +164,9 @@ class PublicationViewSet(culibrariesViewViewSet):
                         queryset = queryset.filter().exclude(title__icontains=valuef)
                     if typef == 'starts_with':
                         queryset = queryset.filter(
-                            title__startswith=valuef)
+                            title__istartswith=valuef)
                     if typef == 'ends_with':
-                        queryset = queryset.filter(title__endswith=valuef)
+                        queryset = queryset.filter(title__iendswith=valuef)
 
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
@@ -184,9 +184,9 @@ class PublicationViewSet(culibrariesViewViewSet):
                         queryset = queryset.filter().exclude(platform__icontains=valuef)
                     if typef == 'starts_with':
                         queryset = queryset.filter(
-                            platform__startswith=valuef)
+                            platform__istartswith=valuef)
                     if typef == 'ends_with':
-                        queryset = queryset.filter(platform__endswith=valuef)
+                        queryset = queryset.filter(platform__iendswith=valuef)
 
         if 'range' in self.request.GET:
             rangeDate = tuple(self.request.GET['range'].split('|'))
