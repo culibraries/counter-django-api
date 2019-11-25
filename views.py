@@ -48,7 +48,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     serializer_class = PlatformSerializer
 
     def get_queryset(self):
-        queryset = Platform.objects.all()[:10]
+        queryset = Platform.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
         pagination_class = SmallResultsSetPagination
@@ -71,7 +71,7 @@ class PublisherViewSet(culibrariesTableViewSet):
     serializer_class = PublisherSerializer
 
     def get_queryset(self):
-        queryset = Publisher.objects.all()[:10]
+        queryset = Publisher.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
         pagination_class = SmallResultsSetPagination
@@ -88,7 +88,7 @@ class TitleViewSet(culibrariesTableViewSet):
     serializer_class = TitleSerializer
 
     def get_queryset(self):
-        queryset = Title.objects.all()[:10]
+        queryset = Title.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(title__icontains=key)
         pagination_class = SmallResultsSetPagination
