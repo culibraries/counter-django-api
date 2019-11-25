@@ -32,12 +32,6 @@ class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
                         JSONPRenderer, XMLRenderer, YAMLRenderer)  # ,CSVRenderer)
 
 
-class SmallResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 10
-
-
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 50
     page_size_query_param = 'page_size'
@@ -131,7 +125,6 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     """
     model = Publication
-    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
 
