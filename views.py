@@ -43,9 +43,9 @@ class PlatformViewSet(culibrariesTableViewSet):
 
     def get_queryset(self):
         queryset = Platform.objects.all()
-        key = self.request.query_params.get(
-            'key', None).values_list('name', flat=True).distinct()
-        queryset = queryset.filter(name__icontains=key)
+        key = self.request.query_params.get('key', None)
+        queryset = queryset.filter(name__icontains=key).values_list(
+            'name', flat=True).distinct()
         return queryset
 
 
@@ -66,9 +66,9 @@ class PublisherViewSet(culibrariesTableViewSet):
 
     def get_queryset(self):
         queryset = Publisher.objects.all()
-        key = self.request.query_params.get(
-            'key', None).values_list('name', flat=True).distinct()
-        queryset = queryset.filter(name__icontains=key)
+        key = self.request.query_params.get('key', None)
+        queryset = queryset.filter(name__icontains=key).values_list(
+            'name', flat=True).distinct()
         return queryset
 
 
