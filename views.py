@@ -42,8 +42,9 @@ class PlatformViewSet(culibrariesTableViewSet):
     serializer_class = PlatformSerializer
 
     def get_queryset(self):
-        queryset = Platform.objects.all().distinct('name')
-        key = self.request.query_params.get('key', None)
+        queryset = Platform.objects.all()
+        key = self.request.query_params.get(
+            'key', None).values_list('name', flat=True).distinct()
         queryset = queryset.filter(name__icontains=key)
         return queryset
 
@@ -64,8 +65,9 @@ class PublisherViewSet(culibrariesTableViewSet):
     serializer_class = PublisherSerializer
 
     def get_queryset(self):
-        queryset = Publisher.objects.all().distinct('name')
-        key = self.request.query_params.get('key', None)
+        queryset = Publisher.objects.all()
+        key = self.request.query_params.get(
+            'key', None).values_list('name', flat=True).distinct()
         queryset = queryset.filter(name__icontains=key)
         return queryset
 
@@ -82,7 +84,8 @@ class TitleViewSet(culibrariesTableViewSet):
     def get_queryset(self):
         queryset = Title.objects.all().distinct('name')
         key = self.request.query_params.get('key', None)
-        queryset = queryset.filter(name__icontains=key)
+        queryset = queryset.filter(title__icontains=key).values_list(
+            'title', flat=True).distinct()
         return queryset
 
 
