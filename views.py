@@ -44,12 +44,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     def get_queryset(self):
         queryset = Platform.objects.all()
         key = self.request.query_params.get('key', None)
-        filterType = self.request.query_params.get('type', 'is')
-        if key is not None:
-            if filterType == 'is':
-                queryset = queryset.filter(name__icontains=key)
-            if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name__icontains=key)
+        queryset = queryset.filter(name__icontains=key)
         return queryset
 
 
@@ -71,12 +66,7 @@ class PublisherViewSet(culibrariesTableViewSet):
     def get_queryset(self):
         queryset = Publisher.objects.all()
         key = self.request.query_params.get('key', None)
-        filterType = self.request.query_params.get('type', 'is')
-        if key is not None:
-            if filterType == 'is':
-                queryset = queryset.filter(name__icontains=key)
-            if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name__icontains=key)
+        queryset = queryset.filter(name__icontains=key)
         return queryset
 
 
@@ -92,12 +82,7 @@ class TitleViewSet(culibrariesTableViewSet):
     def get_queryset(self):
         queryset = Title.objects.all()
         key = self.request.query_params.get('key', None)
-        filterType = self.request.query_params.get('type', 'is')
-        if key is not None:
-            if filterType == 'is':
-                queryset = queryset.filter(name__icontains=key)
-            if filterType == 'is_not':
-                queryset = queryset.filter().exclude(name__icontains=key)
+        queryset = queryset.filter(name__icontains=key)
         return queryset
 
 
