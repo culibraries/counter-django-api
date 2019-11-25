@@ -153,22 +153,21 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             for p in tuple(title.split('|')):
-                if not p:
-                    valuef = tuple(p.split(','))[0]
-                    typef = tuple(p.split(','))[1]
-                    if typef == 'is':
-                        queryset = queryset.filter(title=valuef)
-                    if typef == 'is_not':
-                        queryset = queryset.filter().exclude(title=valuef)
-                    if typef == 'contains':
-                        queryset = queryset.filter(title__icontains=valuef)
-                    if typef == 'does_not_contains':
-                        queryset = queryset.filter().exclude(title__icontains=valuef)
-                    if typef == 'starts_with':
-                        queryset = queryset.filter(
-                            title__istartswith=valuef)
-                    if typef == 'ends_with':
-                        queryset = queryset.filter(title__iendswith=valuef)
+                valuef = tuple(p.split(','))[0]
+                typef = tuple(p.split(','))[1]
+                if typef == 'is':
+                    queryset = queryset.filter(title=valuef)
+                if typef == 'is_not':
+                    queryset = queryset.filter().exclude(title=valuef)
+                if typef == 'contains':
+                    queryset = queryset.filter(title__icontains=valuef)
+                if typef == 'does_not_contains':
+                    queryset = queryset.filter().exclude(title__icontains=valuef)
+                if typef == 'starts_with':
+                    queryset = queryset.filter(
+                        title__istartswith=valuef)
+                if typef == 'ends_with':
+                    queryset = queryset.filter(title__iendswith=valuef)
 
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
