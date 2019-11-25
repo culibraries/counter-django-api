@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from counter.models import Platform, Publisher, Publication, Title, Filter
 from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 # TODO check permission
 # TODO add pagination
 
@@ -38,6 +38,12 @@ class SmallResultsSetPagination(PageNumberPagination):
     max_page_size = 10
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 100000
+
+
 class PlatformViewSet(culibrariesTableViewSet):
     """
 
@@ -46,19 +52,13 @@ class PlatformViewSet(culibrariesTableViewSet):
     """
     model = Platform
     serializer_class = PlatformSerializer
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         queryset = Platform.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
-        pagination_class = SmallResultsSetPagination
         return queryset
-
-
-class BasicPagination(PageNumberPagination):
-    page_size = 50
-    page_size_query_param = 'page_size'
-    max_page_size = 100000
 
 
 class PublisherViewSet(culibrariesTableViewSet):
@@ -69,12 +69,12 @@ class PublisherViewSet(culibrariesTableViewSet):
     """
     model = Publisher
     serializer_class = PublisherSerializer
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         queryset = Publisher.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
-        pagination_class = SmallResultsSetPagination
         return queryset
 
 
@@ -86,12 +86,12 @@ class TitleViewSet(culibrariesTableViewSet):
     """
     model = Title
     serializer_class = TitleSerializer
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         queryset = Title.objects.all()
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(title__icontains=key)
-        pagination_class = SmallResultsSetPagination
         return queryset
 
 
@@ -133,7 +133,7 @@ class PublicationViewSet(culibrariesViewViewSet):
     model = Publication
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PublicationSerializer
-    pagination_class = BasicPagination
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         queryset = Publication.objects.all()
