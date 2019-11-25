@@ -10,6 +10,4 @@ router.register('publications', PublicationViewSet, basename='publication')
 router.register('titles', TitleViewSet, basename='title')
 router.register('filters', FilterViewSet, basename='filter')
 urlpatterns = router.urls
-urlpatterns.append(
-    path('static/', StatsViewSet.as_view(), name='static-view')
-)
+urlpatterns.append(path('static/', StatsViewSet.as_view(), name='static-view'))
