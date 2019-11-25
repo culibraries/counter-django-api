@@ -32,6 +32,12 @@ class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
                         JSONPRenderer, XMLRenderer, YAMLRenderer)  # ,CSVRenderer)
 
 
+class SmallResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
 class PlatformViewSet(culibrariesTableViewSet):
     """
 
@@ -45,6 +51,7 @@ class PlatformViewSet(culibrariesTableViewSet):
         queryset = Platform.objects.all()[:10]
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
+        pagination_class = SmallResultsSetPagination
         return queryset
 
 
@@ -67,6 +74,7 @@ class PublisherViewSet(culibrariesTableViewSet):
         queryset = Publisher.objects.all()[:10]
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(name__icontains=key)
+        pagination_class = SmallResultsSetPagination
         return queryset
 
 
@@ -83,6 +91,7 @@ class TitleViewSet(culibrariesTableViewSet):
         queryset = Title.objects.all()[:10]
         key = self.request.query_params.get('key', None)
         queryset = queryset.filter(title__icontains=key)
+        pagination_class = SmallResultsSetPagination
         return queryset
 
 
