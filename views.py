@@ -128,7 +128,7 @@ class PublicationViewSet(culibrariesViewViewSet):
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
 
-    def getQuerySetByType(typef, valuef, option):
+    def getQuerySetByType(self, typef, valuef, option):
         if typef == 'is':
             queryset = queryset.filter(option=valuef)
         if typef == 'is_not':
@@ -150,26 +150,27 @@ class PublicationViewSet(culibrariesViewViewSet):
             for p in tuple(platform.split('|')):
                 valuef = tuple(p.split(','))[0]
                 typef = tuple(p.split(','))[1]
-                queryset = getQuerySetByType(typef, valuef, platform)
+                queryset = self.getQuerySetByType(typef, valuef, platform)
 
         if 'publisher' in self.request.GET:
             publisher = self.request.GET['publisher']
             for p in tuple(publisher.split('|')):
                 valuef = tuple(p.split(','))[0]
                 typef = tuple(p.split(','))[1]
-                queryset = getQuerySetByType(typef, valuef, publisher)
+                queryset = self.getQuerySetByType(typef, valuef, publisher)
 
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             for p in tuple(title.split('|')):
                 valuef = tuple(p.split(','))[0]
                 typef = tuple(p.split(','))[1]
-                queryset = getQuerySetByType(typef, valuef, title)
+                queryset = self.getQuerySetByType(typef, valuef, title)
 
         if 'range' in self.request.GET:
             rangeDate = tuple(self.request.GET['range'].split('|'))
             fromDate = rangeDate[0]
             toDate = rangeDate[1]
             queryset = queryset.filter(period__range=(fromDate, toDate))
+
         return queryset
 
