@@ -10,21 +10,15 @@ from counter.models import Platform, Publisher, Publication, Title, Filter
 from counter.serializers import PublicationSerializer, PlatformSerializer, PublisherSerializer, TitleSerializer, FilterSerializer
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
-# TODO check permission
-# TODO add pagination
-
-# from django_filters.rest_framework import DjangoFilterBackend
-
-# ************************************* Base Classes  ***************************************************************
+from rest_framework.permissions import IsAuthenticated
+from .permission import IsAdmin
 
 
 class culibrariesTableViewSet(viewsets.ModelViewSet):
     renderer_classes = (BrowsableAPIRenderer, JSONRenderer,
                         JSONPRenderer, XMLRenderer, YAMLRenderer)
-    # filter_backends = (filters.DjangoFilterBackend,
-    #                  filters.SearchFilter, filters.OrderingFilter)
 
-# DB View ViewSet Class
+
 
 
 class culibrariesViewViewSet(viewsets.ReadOnlyModelViewSet):
@@ -44,6 +38,9 @@ class PlatformViewSet(culibrariesTableViewSet):
     Counter  Platform ViewSet with hyperlinked tables.
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['get']
+
     model = Platform
     serializer_class = PlatformSerializer
     pagination_class = LimitOffsetPagination
@@ -194,6 +191,3 @@ class PublicationViewSet(culibrariesViewViewSet):
             queryset = queryset.filter(period__range=(fromDate, toDate))
 
         return queryset
-
-    # filter_class = AcctaxFilter
-# ***************************************** Counter DB Views ********************************************************
