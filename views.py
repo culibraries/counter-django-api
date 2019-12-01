@@ -128,6 +128,21 @@ class PublicationViewSet(culibrariesViewViewSet):
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
 
+    def getQuerySetByType(typef, valuef, option):
+        if typef == 'is':
+            queryset = queryset.filter(option=valuef)
+        if typef == 'is_not':
+            queryset = queryset.filter().exclude(option=valuef)
+        if typef == 'contains':
+            queryset = queryset.filter(option__icontains=valuef)
+        if typef == 'does_not_contains':
+            queryset = queryset.filter().exclude(option__icontains=valuef)
+        if typef == 'starts_with':
+            queryset = queryset.filter(option__istartswith=valuef)
+        if typef == 'ends_with':
+            queryset = queryset.filter(option__iendswith=valuef)
+        return queryset
+
     def get_queryset(self):
         queryset = Publication.objects.all()
         if 'platform' in self.request.GET:
@@ -158,17 +173,3 @@ class PublicationViewSet(culibrariesViewViewSet):
             queryset = queryset.filter(period__range=(fromDate, toDate))
         return queryset
 
-    def getQuerySetByType(typef, valuef, option):
-        if typef == 'is':
-            queryset = queryset.filter(option=valuef)
-        if typef == 'is_not':
-            queryset = queryset.filter().exclude(option=valuef)
-        if typef == 'contains':
-            queryset = queryset.filter(option__icontains=valuef)
-        if typef == 'does_not_contains':
-            queryset = queryset.filter().exclude(option__icontains=valuef)
-        if typef == 'starts_with':
-            queryset = queryset.filter(option__istartswith=valuef)
-        if typef == 'ends_with':
-            queryset = queryset.filter(option__iendswith=valuef)
-        return queryset
