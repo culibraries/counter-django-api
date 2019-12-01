@@ -58,9 +58,13 @@ class PublisherViewSet(culibrariesTableViewSet):
     Counter Publisher ViewSet with hyperlinked tables.
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['get']
+
     model = Publisher
     serializer_class = PublisherSerializer
     pagination_class = LimitOffsetPagination
+
 
     def get_queryset(self):
         queryset = Publisher.objects.all()
@@ -75,6 +79,9 @@ class TitleViewSet(culibrariesTableViewSet):
     Counter Title ViewSet with hyperlinked tables.
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['get']
+
     model = Title
     serializer_class = TitleSerializer
     pagination_class = LimitOffsetPagination
@@ -92,6 +99,9 @@ class FilterViewSet(culibrariesTableViewSet):
     Counter Filter ViewSet with hyperlinked tables.
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['get']
+
     model = Filter
     queryset = Filter.objects.all()
     serializer_class = FilterSerializer
@@ -101,6 +111,9 @@ class StatsViewSet(APIView):
     """
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['get']
+
     renderer_classes = (JSONRenderer, )
 
     def get(self, request, format=None):
@@ -121,6 +134,9 @@ class PublicationViewSet(culibrariesViewViewSet):
     Counter Publication ViewSet with hyperlinked tables.
 
     """
+    permission_classes = (IsAuthenticated, IsAdmin)
+    http_method_names = ['post']
+
     model = Publication
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
