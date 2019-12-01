@@ -127,6 +127,7 @@ class PublicationViewSet(culibrariesViewViewSet):
     model = Publication
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
+    queryset = Publication.objects.all()
 
     def getQuerySetByType(self, typef, valuef, option):
         if typef == 'is':
@@ -144,7 +145,6 @@ class PublicationViewSet(culibrariesViewViewSet):
         return queryset
 
     def get_queryset(self):
-        queryset = Publication.objects.all()
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
             for p in tuple(platform.split('|')):
