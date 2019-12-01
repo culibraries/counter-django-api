@@ -38,7 +38,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     Counter  Platform ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Platform
@@ -58,7 +58,7 @@ class PublisherViewSet(culibrariesTableViewSet):
     Counter Publisher ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Publisher
@@ -79,7 +79,7 @@ class TitleViewSet(culibrariesTableViewSet):
     Counter Title ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Title
@@ -99,7 +99,7 @@ class FilterViewSet(culibrariesTableViewSet):
     Counter Filter ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Filter
@@ -111,7 +111,7 @@ class StatsViewSet(APIView):
     """
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     renderer_classes = (JSONRenderer, )
@@ -134,7 +134,7 @@ class PublicationViewSet(culibrariesViewViewSet):
     Counter Publication ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Publication
