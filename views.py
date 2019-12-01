@@ -100,7 +100,6 @@ class FilterViewSet(culibrariesTableViewSet):
 
     """
     # permission_classes = (IsAuthenticated, IsAdmin)
-    http_method_names = ['get']
 
     model = Filter
     queryset = Filter.objects.all()
@@ -135,7 +134,6 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     """
     # permission_classes = (IsAuthenticated, IsAdmin)
-    http_method_names = ['get']
 
     model = Publication
     serializer_class = PublicationSerializer
@@ -146,8 +144,8 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'publisher' in self.request.GET:
             publisher = self.request.GET['publisher']
             for p in tuple(publisher.split('|')):
-                valuef = tuple(p.split(','))[0]
-                typef = tuple(p.split(','))[1]
+                valuef = tuple(p.split('*.'))[1]
+                typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
                     queryset = queryset.filter(publisher=valuef)
                 if typef == 'is_not':
@@ -165,8 +163,8 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'title' in self.request.GET:
             title = self.request.GET['title']
             for p in tuple(title.split('|')):
-                valuef = tuple(p.split(','))[0]
-                typef = tuple(p.split(','))[1]
+                valuef = tuple(p.split('*.'))[1]
+                typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
                     queryset = queryset.filter(title=valuef)
                 if typef == 'is_not':
@@ -184,8 +182,8 @@ class PublicationViewSet(culibrariesViewViewSet):
         if 'platform' in self.request.GET:
             platform = self.request.GET['platform']
             for p in tuple(platform.split('|')):
-                valuef = tuple(p.split(','))[0]
-                typef = tuple(p.split(','))[1]
+                valuef = tuple(p.split('*.'))[1]
+                typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
                     queryset = queryset.filter(platform=valuef)
                 if typef == 'is_not':
