@@ -100,7 +100,6 @@ class FilterViewSet(culibrariesTableViewSet):
 
     """
     permission_classes = (IsAuthenticated, IsAdmin)
-    http_method_names = ['get']
 
     model = Filter
     queryset = Filter.objects.all()
@@ -135,7 +134,6 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     """
     permission_classes = (IsAuthenticated, IsAdmin)
-    http_method_names = ['get']
 
     model = Publication
     serializer_class = PublicationSerializer
