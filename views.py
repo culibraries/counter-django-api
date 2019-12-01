@@ -38,7 +38,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     Counter  Platform ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    permission_classes = (IsAdmin)
     http_method_names = ['get']
 
     model = Platform
