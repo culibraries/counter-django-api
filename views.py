@@ -135,7 +135,7 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     """
     permission_classes = (IsAuthenticated, IsAdmin)
-    http_method_names = ['post']
+    http_method_names = ['get']
 
     model = Publication
     serializer_class = PublicationSerializer
