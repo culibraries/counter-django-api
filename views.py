@@ -139,6 +139,46 @@ class PublicationViewSet(culibrariesViewViewSet):
 
     def get_queryset(self):
         queryset = Publication.objects.all()
+        if 'platform' in self.request.GET:
+            platform = self.request.GET['platform']
+            typeList = []
+            valueList = []
+            for p in tuple(platform.split('|')):
+                typeList.append(tuple(p.split('*.'))[0])
+                valueList.append(tuple(p.split('*.'))[1])
+            if (len(set(typeList)) == 1):
+                if typeList[0] == 'is':
+                    queryset = queryset.filter(platform__in=valueList)
+                if typeList[0] == 'is_not':
+                    queryset = queryset.filter().exclude(platform__in=valueList)
+                if typeList[0] == 'contains':
+                    queryset = queryset.filter(
+                        platform__icontains__in=valueList)
+                if typeList[0] == 'does_not_contains':
+                    queryset = queryset.filter().exclude(platform__icontains__in=valueList)
+                if typeList[0] == 'starts_with':
+                    queryset = queryset.filter(
+                        platform__istartswith__in=valueList)
+                if typeList[0] == 'ends_with':
+                    queryset = queryset.filter(
+                        platform__iendswith__in=valueList)
+            for p in tuple(platform.split('|')):
+                valuef = tuple(p.split('*.'))[1]
+                typef = tuple(p.split('*.'))[0]
+                if typef == 'is':
+                    queryset = queryset.filter(platform=valuef)
+                if typef == 'is_not':
+                    queryset = queryset.filter().exclude(platform=valuef)
+                if typef == 'contains':
+                    queryset = queryset.filter(platform__icontains=valuef)
+                if typef == 'does_not_contains':
+                    queryset = queryset.filter().exclude(platform__icontains=valuef)
+                if typef == 'starts_with':
+                    queryset = queryset.filter(
+                        platform__istartswith=valuef)
+                if typef == 'ends_with':
+                    queryset = queryset.filter(platform__iendswith=valuef)
+
         if 'publisher' in self.request.GET:
             publisher = self.request.GET['publisher']
             typeList = []
@@ -182,6 +222,27 @@ class PublicationViewSet(culibrariesViewViewSet):
 
         if 'title' in self.request.GET:
             title = self.request.GET['title']
+            typeList = []
+            valueList = []
+            for p in tuple(publisher.split('|')):
+                typeList.append(tuple(p.split('*.'))[0])
+                valueList.append(tuple(p.split('*.'))[1])
+            if (len(set(typeList)) == 1):
+                if typeList[0] == 'is':
+                    queryset = queryset.filter(title__in=valueList)
+                if typeList[0] == 'is_not':
+                    queryset = queryset.filter().exclude(title__in=valueList)
+                if typeList[0] == 'contains':
+                    queryset = queryset.filter(
+                        title__icontains__in=valueList)
+                if typeList[0] == 'does_not_contains':
+                    queryset = queryset.filter().exclude(title__icontains__in=valueList)
+                if typeList[0] == 'starts_with':
+                    queryset = queryset.filter(
+                        title__istartswith__in=valueList)
+                if typeList[0] == 'ends_with':
+                    queryset = queryset.filter(
+                        title__iendswith__in=valueList)
             for p in tuple(title.split('|')):
                 valuef = tuple(p.split('*.'))[1]
                 typef = tuple(p.split('*.'))[0]
@@ -198,25 +259,6 @@ class PublicationViewSet(culibrariesViewViewSet):
                         title__istartswith=valuef)
                 if typef == 'ends_with':
                     queryset = queryset.filter(title__iendswith=valuef)
-
-        if 'platform' in self.request.GET:
-            platform = self.request.GET['platform']
-            for p in tuple(platform.split('|')):
-                valuef = tuple(p.split('*.'))[1]
-                typef = tuple(p.split('*.'))[0]
-                if typef == 'is':
-                    queryset = queryset.filter(platform=valuef)
-                if typef == 'is_not':
-                    queryset = queryset.filter().exclude(platform=valuef)
-                if typef == 'contains':
-                    queryset = queryset.filter(platform__icontains=valuef)
-                if typef == 'does_not_contains':
-                    queryset = queryset.filter().exclude(platform__icontains=valuef)
-                if typef == 'starts_with':
-                    queryset = queryset.filter(
-                        platform__istartswith=valuef)
-                if typef == 'ends_with':
-                    queryset = queryset.filter(platform__iendswith=valuef)
 
         if 'range' in self.request.GET:
             rangeDate = tuple(self.request.GET['range'].split('|'))
