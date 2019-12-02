@@ -165,7 +165,7 @@ class PublicationViewSet(culibrariesViewViewSet):
                         functools.reduce(operator.and_, (Q(platform__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        functools.reduce(operator.and_, (Q(platform__istartswith=x) for x in valueList)))
+                        functools.reduce(operator.and_, (Q(platform__iendswith=x) for x in valueList)))
             else:
                 for p in tuple(platform.split('|')):
                     valuef = tuple(p.split('*.'))[1]
@@ -207,7 +207,7 @@ class PublicationViewSet(culibrariesViewViewSet):
                         functools.reduce(operator.and_, (Q(publisher__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        functools.reduce(operator.and_, (Q(publisher__istartswith=x) for x in valueList)))
+                        functools.reduce(operator.and_, (Q(publisher__iendswith=x) for x in valueList)))
             else:
                 for p in tuple(publisher.split('|')):
                     valuef = tuple(p.split('*.'))[1]
@@ -249,7 +249,7 @@ class PublicationViewSet(culibrariesViewViewSet):
                         functools.reduce(operator.and_, (Q(title__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        functools.reduce(operator.and_, (Q(title__istartswith=x) for x in valueList)))
+                        functools.reduce(operator.and_, (Q(title__iendswith=x) for x in valueList)))
             else:
                 for p in tuple(title.split('|')):
                     valuef = tuple(p.split('*.'))[1]
