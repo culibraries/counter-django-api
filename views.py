@@ -11,6 +11,8 @@ from counter.serializers import PublicationSerializer, PlatformSerializer, Publi
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
+
 from .permission import IsAdmin
 
 
@@ -36,7 +38,7 @@ class PlatformViewSet(culibrariesTableViewSet):
     Counter  Platform ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Platform
@@ -56,7 +58,7 @@ class PublisherViewSet(culibrariesTableViewSet):
     Counter Publisher ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Publisher
@@ -76,7 +78,7 @@ class TitleViewSet(culibrariesTableViewSet):
     Counter Title ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     model = Title
@@ -96,7 +98,7 @@ class FilterViewSet(culibrariesTableViewSet):
     Counter Filter ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
 
     model = Filter
     queryset = Filter.objects.all()
@@ -107,7 +109,7 @@ class StatsViewSet(APIView):
     """
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
     http_method_names = ['get']
 
     renderer_classes = (JSONRenderer, )
@@ -130,12 +132,12 @@ class PublicationViewSet(culibrariesViewViewSet):
     Counter Publication ViewSet with hyperlinked tables.
 
     """
-    permission_classes = (IsAuthenticated, IsAdmin)
+    # permission_classes = (IsAuthenticated, IsAdmin)
 
     model = Publication
     serializer_class = PublicationSerializer
     pagination_class = LargeResultsSetPagination
-
+    query = Q()
     def get_queryset(self):
         queryset = Publication.objects.all()
         if 'platform' in self.request.GET:
@@ -144,18 +146,17 @@ class PublicationViewSet(culibrariesViewViewSet):
                 valuef = tuple(p.split('*.'))[1]
                 typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
-                    queryset |= queryset.filter(platform=valuef)
+                    query |= Q(platform=valuef)
                 if typef == 'is_not':
-                    queryset |= queryset.filter().exclude(platform=valuef)
+                    query |= ~Q(platform=valuef)
                 if typef == 'contains':
-                    queryset |= queryset.filter(platform__icontains=valuef)
+                    query |= Q(platform__icontains=valuef)
                 if typef == 'does_not_contains':
-                    queryset |= queryset.filter().exclude(platform__icontains=valuef)
+                    query = ~Q(platform__icontains=valuef)
                 if typef == 'starts_with':
-                    queryset |= queryset.filter(
-                        platform__istartswith=valuef)
+                    query |= Q(platform__istartswith=valuef)
                 if typef == 'ends_with':
-                    queryset |= queryset.filter(platform__iendswith=valuef)
+                    query |= Q(platform__iendswith=valuef)
 
         if 'publisher' in self.request.GET:
             publisher = self.request.GET['publisher']
@@ -163,18 +164,17 @@ class PublicationViewSet(culibrariesViewViewSet):
                 valuef = tuple(p.split('*.'))[1]
                 typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
-                    queryset |= queryset.filter(publisher=valuef)
+                    query |= Q(publisher=valuef)
                 if typef == 'is_not':
-                    queryset |= queryset.filter().exclude(publisher=valuef)
+                    query |= ~Q(publisher=valuef)
                 if typef == 'contains':
-                    queryset |= queryset.filter(publisher__icontains=valuef)
+                    query |= Q(publisher__icontains=valuef)
                 if typef == 'does_not_contains':
-                    queryset |= queryset.filter().exclude(publisher__icontains=valuef)
+                    query |= ~Q(publisher__icontains=valuef)
                 if typef == 'starts_with':
-                    queryset |= queryset.filter(
-                        publisher__istartswith=valuef)
+                    query |= Q(publisher__istartswith=valuef)
                 if typef == 'ends_with':
-                    queryset |= queryset.filter(publisher__iendswith=valuef)
+                    query |= Q(publisher__iendswith=valuef)
 
         if 'title' in self.request.GET:
             title = self.request.GET['title']
@@ -182,23 +182,23 @@ class PublicationViewSet(culibrariesViewViewSet):
                 valuef = tuple(p.split('*.'))[1]
                 typef = tuple(p.split('*.'))[0]
                 if typef == 'is':
-                    queryset = queryset.filter(title=valuef)
+                    query |= Q(title=valuef)
                 if typef == 'is_not':
-                    queryset = queryset.filter().exclude(title=valuef)
+                    query |= ~Q(title=valuef)
                 if typef == 'contains':
-                    queryset = queryset.filter(title__icontains=valuef)
+                    query |= Q(title__icontains=valuef)
                 if typef == 'does_not_contains':
-                    queryset = queryset.filter().exclude(title__icontains=valuef)
+                    query |= ~Q(title__icontains=valuef)
                 if typef == 'starts_with':
-                    queryset = queryset.filter(
+                    query |= Q(
                         title__istartswith=valuef)
                 if typef == 'ends_with':
-                    queryset = queryset.filter(title__iendswith=valuef)
+                    query |= Q(title__iendswith=valuef)
 
         if 'range' in self.request.GET:
             rangeDate = tuple(self.request.GET['range'].split('|'))
             fromDate = rangeDate[0]
             toDate = rangeDate[1]
-            queryset = queryset.filter(period__range=(fromDate, toDate))
+            query = Q(period__range=(fromDate, toDate))
 
-        return queryset
+        return queryset.filter(query)
