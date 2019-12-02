@@ -11,6 +11,9 @@ from counter.serializers import PublicationSerializer, PlatformSerializer, Publi
 from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
+import operator
+import functools
+from django.db.models import Q
 
 from .permission import IsAdmin
 
@@ -153,15 +156,16 @@ class PublicationViewSet(culibrariesViewViewSet):
                     queryset = queryset.filter().exclude(platform__in=valueList)
                 if typeList[0] == 'contains':
                     queryset = queryset.filter(
-                        platform__icontains__in=valueList)
+                        functools.reduce(operator.and_, (Q(platform__icontains=x) for x in valueList)))
                 if typeList[0] == 'does_not_contains':
-                    queryset = queryset.filter().exclude(platform__icontains__in=valueList)
+                    queryset = queryset.filter(
+                        functools.reduce(operator.and_, (~Q(platform__icontains=x) for x in valueList)))
                 if typeList[0] == 'starts_with':
                     queryset = queryset.filter(
-                        platform__istartswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(platform__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        platform__iendswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(platform__istartswith=x) for x in valueList)))
             else:
                 for p in tuple(platform.split('|')):
                     valuef = tuple(p.split('*.'))[1]
@@ -194,15 +198,16 @@ class PublicationViewSet(culibrariesViewViewSet):
                     queryset = queryset.filter().exclude(publisher__in=valueList)
                 if typeList[0] == 'contains':
                     queryset = queryset.filter(
-                        publisher__icontains__in=valueList)
+                        functools.reduce(operator.and_, (Q(publisher__icontains=x) for x in valueList)))
                 if typeList[0] == 'does_not_contains':
-                    queryset = queryset.filter().exclude(publisher__icontains__in=valueList)
+                    queryset = queryset.filter(
+                        functools.reduce(operator.and_, (~Q(publisher__icontains=x) for x in valueList)))
                 if typeList[0] == 'starts_with':
                     queryset = queryset.filter(
-                        publisher__istartswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(publisher__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        publisher__iendswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(publisher__istartswith=x) for x in valueList)))
             else:
                 for p in tuple(publisher.split('|')):
                     valuef = tuple(p.split('*.'))[1]
@@ -225,7 +230,7 @@ class PublicationViewSet(culibrariesViewViewSet):
             title = self.request.GET['title']
             typeList = []
             valueList = []
-            for p in tuple(publisher.split('|')):
+            for p in tuple(title.split('|')):
                 typeList.append(tuple(p.split('*.'))[0])
                 valueList.append(tuple(p.split('*.'))[1])
             if (len(set(typeList)) == 1):
@@ -235,15 +240,16 @@ class PublicationViewSet(culibrariesViewViewSet):
                     queryset = queryset.filter().exclude(title__in=valueList)
                 if typeList[0] == 'contains':
                     queryset = queryset.filter(
-                        title__icontains__in=valueList)
+                        functools.reduce(operator.and_, (Q(title__icontains=x) for x in valueList)))
                 if typeList[0] == 'does_not_contains':
-                    queryset = queryset.filter().exclude(title__icontains__in=valueList)
+                    queryset = queryset.filter(
+                        functools.reduce(operator.and_, (~Q(title__icontains=x) for x in valueList)))
                 if typeList[0] == 'starts_with':
                     queryset = queryset.filter(
-                        title__istartswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(title__istartswith=x) for x in valueList)))
                 if typeList[0] == 'ends_with':
                     queryset = queryset.filter(
-                        title__iendswith__in=valueList)
+                        functools.reduce(operator.and_, (Q(title__istartswith=x) for x in valueList)))
             else:
                 for p in tuple(title.split('|')):
                     valuef = tuple(p.split('*.'))[1]
