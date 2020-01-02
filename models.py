@@ -31,7 +31,7 @@ class Publication(models.Model):
 
 
 class Filter(models.Model):
-    id = models.IntegerField()
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=250)
     params = models.CharField(max_length=500)
@@ -45,7 +45,7 @@ class Filter(models.Model):
 
 
 class Title(models.Model):
-    id = models.IntegerField()
+    id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100)
 
     class Meta:
